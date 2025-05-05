@@ -45,6 +45,35 @@ function draw() {
           noStroke();
           circle(keypoint.x, keypoint.y, 16);
         }
+
+        // Connect keypoints 0 to 4, 5 to 8, and 9 to 12 with lines
+        if (hand.handedness == "Left") {
+          stroke(255, 0, 255); // Left hand color
+        } else {
+          stroke(255, 255, 0); // Right hand color
+        }
+        strokeWeight(2);
+
+        // Connect keypoints 0 to 4
+        for (let i = 0; i < 4; i++) {
+          let start = hand.keypoints[i];
+          let end = hand.keypoints[i + 1];
+          line(start.x, start.y, end.x, end.y);
+        }
+
+        // Connect keypoints 5 to 8
+        for (let i = 5; i < 8; i++) {
+          let start = hand.keypoints[i];
+          let end = hand.keypoints[i + 1];
+          line(start.x, start.y, end.x, end.y);
+        }
+
+        // Connect keypoints 9 to 12
+        for (let i = 9; i < 12; i++) {
+          let start = hand.keypoints[i];
+          let end = hand.keypoints[i + 1];
+          line(start.x, start.y, end.x, end.y);
+        }
       }
     }
   }
