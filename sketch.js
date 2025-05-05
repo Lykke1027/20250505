@@ -1,6 +1,9 @@
 let video;
 let handPose;
 let hands = [];
+let circleX, circleY, circleSize = 100;
+let isDrawing = false; // 是否正在繪製軌跡
+let lastX, lastY; // 上一個手指位置
 
 function preload() {
   // Initialize HandPose model with flipped video input
@@ -22,10 +25,19 @@ function setup() {
 
   // Start detecting hands
   handPose.detectStart(video, gotHands);
+
+  // Initialize circle position
+  circleX = width / 2;
+  circleY = height / 2;
 }
 
 function draw() {
   image(video, 0, 0);
+
+  // Draw the circle
+  fill(0, 255, 0);
+  noStroke();
+  circle(circleX, circleY, circleSize);
 
   // Ensure at least one hand is detected
   if (hands.length > 0) {
@@ -85,6 +97,27 @@ function draw() {
           line(start.x, start.y, end.x, end.y);
         }
 
+        // Check if the index finger (keypoint 8) touches the circle
+        let indexFinger = hand.keypoints[8];
+        let d = dist(indexFinger.x, indexFinger.y, circleX, circleY);
+        if (d < circleSize / 2) {
+          // Move the circle to follow the index finger
+          circleX = indexFinger.x;
+          circleY = indexFinger.y;
+
+          // Start drawing the trajectory
+          if (isDrawing) {
+            stroke(255, 0, 0); // Red color for the trajectory
+            strokeWeight(2);
+            line(lastX, lastY, indexFinger.x, indexFinger.y);
+          }
+          lastX = indexFinger.x;
+          lastY = indexFinger.y;
+          isDrawing = true;
+        } else {
+          // Stop drawing when the finger leaves the circle
+          isDrawing = false;
+        }
       }
     }
   }
