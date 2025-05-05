@@ -74,6 +74,17 @@ function draw() {
           let end = hand.keypoints[i + 1];
           line(start.x, start.y, end.x, end.y);
         }
+        for (let i = 13; i < 16; i++) {
+          let start = hand.keypoints[i];
+          let end = hand.keypoints[i + 1];
+          line(start.x, start.y, end.x, end.y);
+        }
+        for (let i = 17; i < 20; i++) {
+          let start = hand.keypoints[i];
+          let end = hand.keypoints[i + 1];
+          line(start.x, start.y, end.x, end.y);
+        }
+
       }
     }
   }
