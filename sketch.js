@@ -34,8 +34,8 @@ function setup() {
 function draw() {
   image(video, 0, 0);
 
-  // Draw the circle
-  fill(0, 255, 0);
+  // Draw the circle with transparency
+  fill(0, 255, 0, 127); // 第四個參數 127 表示半透明
   noStroke();
   circle(circleX, circleY, circleSize);
 
@@ -111,12 +111,19 @@ function draw() {
             strokeWeight(2);
             line(lastX, lastY, indexFinger.x, indexFinger.y);
           }
+          // Update lastX and lastY for the next frame
           lastX = indexFinger.x;
           lastY = indexFinger.y;
           isDrawing = true;
         } else {
           // Stop drawing when the finger leaves the circle
           isDrawing = false;
+        }
+
+        // Initialize lastX and lastY if they are undefined
+        if (!isDrawing) {
+          lastX = indexFinger.x;
+          lastY = indexFinger.y;
         }
       }
     }
